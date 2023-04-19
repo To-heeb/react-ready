@@ -1,0 +1,14 @@
+create a simple todo with React, 
+complete CRUD
+List All Todo Items ✅
+View single Todo Item
+Create Todo ✅
+Edit Todo,
+Delete Todo ✅
+
+Save you todos in localstorage 
+but interact with the localstorage through the context Api + Redux
+https://react.dev/learn/scaling-up-with-reducer-and-context
+want to see how to think in React
+
+NB. do not use create-react-app  --> use Vite ✅
