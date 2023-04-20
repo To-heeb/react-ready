@@ -26,3 +26,4 @@ export const todoSlice = createSlice({
 
 export const { addTodo } = todoSlice.actions;
 export default todoSlice.reducer;
+// events are called actions in redux, that is why it is dispatched like laravel events

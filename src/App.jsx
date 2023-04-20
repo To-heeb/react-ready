@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import Title from './components/Title';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addTodo } from './slices/todoSlice';
 import { v4 as uuid } from 'uuid';
 
@@ -10,8 +10,8 @@ function App() {
   const [storage, setStorage] = useState([])
 
   // state management
-  let todos = storage;
-
+  let todos = useSelector((state) => state.todo.todos);
+  console.log(todos);
   const dispatch = useDispatch()
 
   const handleSubmit = (e) => {
@@ -25,6 +25,18 @@ function App() {
     }));
 
     setInput('');
+  }
+
+  const handleCheck = (e) => {
+
+  }
+
+  const handleDelete = () => {
+
+  }
+
+  const handleUpdate = () => {
+
   }
 
   const saveToStorage = (todos) => {
@@ -87,15 +99,21 @@ function App() {
       </form>
       {/* checked={todo.complete ? ' checked' : ''} */}
       <ul className="todos-list">
-        {
-          todos.map((todo, index) =>
-            <li key={index} >
-              <input type="checkbox" />
-              <span>{todo.label}</span>
-              <button type="button" onClick={() => deleteTodo(todo)}></button>
-            </li>
-          )
-        }
+        {todos && todos.length > 0 ?
+          (
+            todos.map((todo, index) =>
+              <li key={index} className={(todo.complete) ? 'todos-complete' : ''}>
+                <input
+                  type="checkbox"
+                  defaultChecked={todo.complete}
+                  onChange={(e) => handleCheck(e)}
+                />
+                <span>{todo.label}</span>
+                <button type="button" onClick={() => deleteTodo(todo)}></button>
+              </li>
+            )
+          ) :
+          <li><span>No Todo Item</span></li>}
       </ul>
     </div>
   )
