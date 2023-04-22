@@ -60,9 +60,11 @@ function App() {
             label: label.trim(),
             complete: todo.complete,
           }))
+        } else if (label === '') {
+          alert("Please enter a label")
+          return;
         }
-        alert("Please enter a label")
-        return;
+
         break;
       }
       default: {
