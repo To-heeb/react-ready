@@ -2,16 +2,17 @@ import { useState } from 'react'
 import './App.css'
 import Title from './components/Title';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTodo } from './slices/todoSlice';
+import { addTodo, deleteTodo, updateTodo, clearTodos } from './slices/todoSlice';
 import { v4 as uuid } from 'uuid';
 
 function App() {
   const [input, setInput] = useState("")
-  const [storage, setStorage] = useState([])
+  const [completed, setCompleted] = useState("none")
+
 
   // state management
   let todos = useSelector((state) => state.todo.todos);
-  console.log(todos);
+
   const dispatch = useDispatch()
 
   const handleSubmit = (e) => {
@@ -27,44 +28,52 @@ function App() {
     setInput('');
   }
 
-  const handleCheck = (e) => {
+  const handleCheck = (e, todo) => {
+    if (e.target.checked) {
+      dispatch(updateTodo({
+        id: todo.id,
+        label: todo.label,
+        complete: true,
+      }))
+    } else {
+      dispatch(updateTodo({
+        id: todo.id,
+        label: todo.label,
+        complete: false,
+      }))
+    }
 
+    const count = todos.filter(todo => todo.complete).length
+    console.log(count)
+    count == 0 ? setCompleted('none') : setCompleted('block');
   }
 
-  const handleDelete = () => {
-
-  }
-
-  const handleUpdate = () => {
-
-  }
-
-  const saveToStorage = (todos) => {
-    setStorage(todos)
-    //localStorage.setItem('todos', JSON.stringify(todos))
-  }
-
-  const updateTodo = (input) => {
-    const id = parseInt(event.target.parentNode.getAttribute('data-id'), 10);
-    const complete = event.target.checked;
-    todos = todos.map((todo, index) => {
-      if (index === id) {
-        console.log(todo);
-        return {
-          ...todo,
-          complete
+  const handleClick = (e, todo) => {
+    //console.log(e.detail);
+    switch (e.detail) {
+      case 2: {
+        let label = prompt('Update "' + todo.label + '" to')
+        console.log(label);
+        if (label !== null && label !== '') {
+          dispatch(updateTodo({
+            id: todo.id,
+            label: label.trim(),
+            complete: todo.complete,
+          }))
         }
+        alert("Please enter a label")
+        return;
+        break;
       }
-      return todo
-    });
-    console.log(todos)
-    saveToStorage(todos);
+      default: {
+        break;
+      }
+    }
   }
 
-  const deleteTodo = (curr_todo) => {
-    if (window.confirm(`Delete ${curr_todo.label}?`)) {
-      todos = todos.filter((todo, index) => todo.id !== curr_todo.id)
-      saveToStorage(todos);
+  const handleDelete = (todo) => {
+    if (window.confirm(`Delete ${todo.label}?`)) {
+      dispatch(deleteTodo(todo))
     }
   }
 
@@ -73,9 +82,9 @@ function App() {
     const count = todos.filter(todo => todo.complete).length
     if (count === 0) return;
     if (window.confirm(`Delete ${count} todos?`)) {
-      todos = todos.filter(todo => !todo.complete)
-      saveToStorage(todos);
+      dispatch(clearTodos())
     }
+    setCompleted('none')
   }
 
 
@@ -84,8 +93,8 @@ function App() {
       <div className='todos-header'>
         <Title >Todo List</Title>
         <div>
-          <p>You have <span className="todos-count"></span> items</p>
-          <button type="button" className="todos-clear" style={{ display: "none" }}>Clear Completed</button>
+          <p>You have <span className="todos-count">{todos.length}</span> items</p>
+          <button type="button" className="todos-clear" style={{ display: completed }} onClick={(e) => clearCompleteTodos(e)}>Clear Completed</button>
         </div>
       </div>
       <form className="todos-form" name="todos" onSubmit={(e) => handleSubmit(e)}>
@@ -102,14 +111,14 @@ function App() {
         {todos && todos.length > 0 ?
           (
             todos.map((todo, index) =>
-              <li key={index} className={(todo.complete) ? 'todos-complete' : ''}>
+              <li key={index} className={(todo.complete) ? 'todos-complete' : ''} onClick={(e) => handleClick(e, todo)}>
                 <input
                   type="checkbox"
                   defaultChecked={todo.complete}
-                  onChange={(e) => handleCheck(e)}
+                  onChange={(e) => handleCheck(e, todo)}
                 />
                 <span>{todo.label}</span>
-                <button type="button" onClick={() => deleteTodo(todo)}></button>
+                <button type="button" onClick={() => handleDelete(todo)}></button>
               </li>
             )
           ) :

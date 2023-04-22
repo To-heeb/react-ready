@@ -1,6 +1,6 @@
 import React from 'react'
 
-function List({ key, todo }) {
+function List({ children, todo }) {
     return (
         <li>List</li>
     )
