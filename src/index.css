@@ -248,6 +248,24 @@ body {
   position: relative;
   z-index: 2;
 }
+ /* button[type='submit'] {
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  background: url('assets/img/edit.svg') no-repeat center center;
+  background-size: contain;
+  background-clip: padding-box;
+  outline: 0;
+  cursor: pointer;
+  padding: 0;
+  border: 1px solid transparent;
+  margin-left: auto;
+  margin-top: 7px;
+  order: 3;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+} */
 .todos-list li button:hover {
   background: url('assets/img/delete-full.svg') no-repeat center center;
   background-size: contain;
