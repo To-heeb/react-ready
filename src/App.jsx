@@ -48,29 +48,21 @@ function App() {
     count == 0 ? setCompleted('none') : setCompleted('block');
   }
 
-  const handleClick = (e, todo) => {
-    //console.log(e.detail);
-    switch (e.detail) {
-      case 2: {
-        let label = prompt('Update "' + todo.label + '" to')
-        console.log(label);
-        if (label !== null && label !== '') {
-          dispatch(updateTodo({
-            id: todo.id,
-            label: label.trim(),
-            complete: todo.complete,
-          }))
-        } else if (label === '') {
-          alert("Please enter a label")
-          return;
-        }
+  const handleEdit = (todo) => {
 
-        break;
-      }
-      default: {
-        break;
-      }
+    let label = prompt('Update "' + todo.label + '" to')
+    console.log(label);
+    if (label !== null && label !== '') {
+      dispatch(updateTodo({
+        id: todo.id,
+        label: label.trim(),
+        complete: todo.complete,
+      }))
+    } else if (label === '') {
+      alert("Please enter a label")
+      return;
     }
+
   }
 
   const handleDelete = (todo) => {
@@ -113,13 +105,14 @@ function App() {
         {todos && todos.length > 0 ?
           (
             todos.map((todo, index) =>
-              <li key={index} className={(todo.complete) ? 'todos-complete' : ''} onClick={(e) => handleClick(e, todo)}>
+              <li key={index} className={(todo.complete) ? 'todos-complete' : ''} >
                 <input
                   type="checkbox"
                   defaultChecked={todo.complete}
                   onChange={(e) => handleCheck(e, todo)}
                 />
                 <span>{todo.label}</span>
+                <button type="button" className='edit' onClick={() => handleEdit(todo)}></button>
                 <button type="button" onClick={() => handleDelete(todo)}></button>
               </li>
             )
