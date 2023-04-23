@@ -1,7 +1,7 @@
 create a simple todo with React, 
-complete CRUD
+complete CRUD ✅
 List All Todo Items ✅
-View single Todo Item
+View single Todo Item ✅
 Create Todo ✅
 Edit Todo,
 Delete Todo ✅

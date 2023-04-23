@@ -99,7 +99,7 @@ function App() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
-        <input type="submit" className='add' value="Add" />
+        <input type="submit" className='add' style={{ marginTop: "10px" }} value="Add" />
       </form>
       {/* checked={todo.complete ? ' checked' : ''} */}
       <ul className="todos-list">
