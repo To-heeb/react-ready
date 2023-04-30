@@ -35,7 +35,6 @@ function Todo({ todo, index }) {
         if (todo.label == "") return;
 
         setIsEditing(false);
-
     }
 
     const handleChange = (e) => {
@@ -79,11 +78,11 @@ function Todo({ todo, index }) {
             </>
         );
     }
+
     return (
         <li key={index} className={(todo.complete) ? 'todos-complete' : ''} >
             {todoContent}
         </li>
-
     )
 }
 
